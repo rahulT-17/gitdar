@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+dist/
+build/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# Config — never commit this, it has your GitHub token
+~/.gitdar-agent/
+.gitdar-agent/
+
+# IDE and workspace 
+.vscode/
+.idea/
+code-workspace
+
+# Test cache
+.pytest_cache/
+.coverage
+
+# docs 
+CLAUDE.md
+gitdar_blueprint.md
+Learning.md
