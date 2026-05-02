@@ -1,2 +1,0 @@
-[console_scripts]
-gitdar = src.cli.main:app
