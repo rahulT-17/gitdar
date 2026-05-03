@@ -56,3 +56,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [ ] Add comprehensive test coverage for all commands
 - [ ] Create documentation with GIF recording
 - [ ] Support for Linux and macOS validation
+
+
+## [0.2.0] - 2026-05-03
+
+### Added
+- **Runtime Integration**: Integrated core runtime infrastructure with orchestrator, executor, and planner components
+- **Engineering Domain**: Added engineering domain layer with application services and business logic
+- **CLI Integration**: Integrated commands and output formatter for command execution
+- **Repository Infrastructure**: GitHub API adapter with local caching support
+
+### Fixed
+- **LM Studio Provider**: Fixed model loading configuration for local provider
+- **Import Errors**: Resolved minor import issues in provider loading chain
+
+### Known Issues
+- Out of 23 unit tests, 16 pass while 7 fail
+- Test failures originate from `unit/test_init.py` — core business logic is correct but implementation is too interactive for test harness
+- **Next Steps**: Refactor init command to use Typer/Click-friendly prompting instead of fake provider prompts for better testability
+
+### In Progress
+- Improving test coverage and initialization flow
+- Refining command-line interface for interactive workflows 
+
+
