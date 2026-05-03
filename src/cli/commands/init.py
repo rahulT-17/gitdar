@@ -20,8 +20,8 @@ from rich.console import Console
 from rich.prompt import Prompt
 from rich.panel import Panel
 
-from config import loader
-from services.llm.providers.lmstudio import LMStudioProvider
+from src.config import loader
+from src.services.llm.providers.lmstudio import LMStudioProvider
 
 console = Console()
 
