@@ -20,12 +20,12 @@ from typing import Optional
 
 import httpx
 
-from config.defaults import (
+from src.config.defaults import (
     DB_FILE,
     GITHUB_API_BASE,
     GITHUB_CACHE_TTL_SECONDS,
 )
-from domains.engineering.domain.models import (
+from src.domains.engineering.domain.models import (
     Author,
     AuthorRole,
     MergeableState,
