@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from shared.contracts.tool_response import LLMResponse
+from src.shared.contracts.tool_response import LLMResponse
 
 
 class BaseLLMProvider(ABC):

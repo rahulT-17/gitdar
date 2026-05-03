@@ -24,9 +24,9 @@ from typing import Optional
 import httpx
 from openai import AsyncOpenAI
 
-from services.llm.base import BaseLLMProvider
-from shared.contracts.tool_response import LLMResponse
-from config.defaults import PROVIDER_CONFIGS
+from src.services.llm.base import BaseLLMProvider
+from src.shared.contracts.tool_response import LLMResponse
+from src.config.defaults import PROVIDER_CONFIGS
 
 
 class LMStudioProvider(BaseLLMProvider):
@@ -34,7 +34,7 @@ class LMStudioProvider(BaseLLMProvider):
     BASE_URL   = PROVIDER_CONFIGS["lmstudio"]["base_url"]   # http://localhost:1234/v1
     MODEL      = PROVIDER_CONFIGS["lmstudio"]["default_model"]
     API_KEY    = PROVIDER_CONFIGS["lmstudio"]["api_key"]    # "lmstudio" — ignored by server
-    HEALTH_URL = "http://localhost:1234/v1/models"          # returns {"data": [...models...]}
+    HEALTH_URL = "http://localhost:1234/api/v0/models"          # returns {"data": [...models...]}
 
     def __init__(self, model: Optional[str] = None) -> None:
         self.model = model or self.MODEL
@@ -62,7 +62,9 @@ class LMStudioProvider(BaseLLMProvider):
                 return False
             body = response.json()
             models = body.get("data", [])
-            return len(models) > 0
+
+            loaded_models = [m for m in models if m.get("state") == "loaded"]
+            return len(loaded_models) > 0
         except Exception:
             return False
 
@@ -80,7 +82,12 @@ class LMStudioProvider(BaseLLMProvider):
             models = body.get("data", [])
             if not models:
                 return None
-            return models[0].get("id")
+            
+            for model in models:
+                if model.get("state") == "loaded":
+                    return model.get("id")
+            return None
+        
         except Exception:
             return None
 
@@ -134,8 +141,11 @@ class LMStudioProvider(BaseLLMProvider):
         Falls back to the placeholder if the server is unreachable
         (complete() will then fail with a clear API error).
         """
-        if self.model != "local-model":
+        if self.model and self.model != "local-model":
             return self.model     # user explicitly set a model — use it
 
         loaded = self.get_loaded_model()
-        return loaded if loaded else self.model
+        if loaded:
+            return loaded       
+        raise RuntimeError("It seems like LM Studio isn't running or doesn't have any loaded models.")
+    
