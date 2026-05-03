@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 import tomlkit
 
-from config.defaults import CONFIG_FILE, DEFAULT_PROVIDER
+from src.config.defaults import CONFIG_FILE, DEFAULT_PROVIDER
 
 
 def _config_path() -> Path:
