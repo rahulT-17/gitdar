@@ -136,7 +136,15 @@ def run() -> None:
         },
     }
 
-    loader.save(config)
+    config_path = loader.get_config_path()
+    try:
+        loader.save(config)
+    except Exception as exc:
+        console.print()
+        console.print("[red]✗ Failed to save gitdar config.[/red]")
+        console.print(f"  Path: [bold]{config_path}[/bold]")
+        console.print(f"  Error: {exc}")
+        raise typer.Exit(code=1)
 
     # ------------------------------------------------------------------ #
     # Step 7 — Done                                                        #
@@ -146,6 +154,7 @@ def run() -> None:
         f"  GitHub user : [bold]{github_user}[/bold]\n"
         f"  Provider    : [bold]LM Studio[/bold]\n"
         f"  Model       : [bold]{loaded_model}[/bold]\n\n"
+        f"Config saved to: [bold]{config_path}[/bold]\n\n"
         f"Run [bold cyan]gitdar standup[/bold cyan] to generate your first standup.",
         border_style="green",
     ))

@@ -19,6 +19,11 @@ def _config_path() -> Path:
     return Path(CONFIG_FILE).expanduser()
 
 
+def get_config_path() -> Path:
+    """Public accessor for the resolved config file path."""
+    return _config_path()
+
+
 def load() -> dict[str, Any]:
     """
     Load the full config from disk.
